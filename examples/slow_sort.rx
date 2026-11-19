@@ -1,0 +1,5 @@
+# only for numbers 1, 2, 3
+*21* -> [1]12[2]
+*31* -> [1]13[2]
+*32* -> [1]23[2]
+# etc, if you'd like to add symbols

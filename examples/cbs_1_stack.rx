@@ -1,0 +1,7 @@
+# supported brackets: ()
+*&(* -> [1](&[2]
+*(&)* -> [1]&[2]
+&)* !> false
+& !> true
+*(& !> false
+* -> &[1]
