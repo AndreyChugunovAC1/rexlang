@@ -1,6 +1,4 @@
-# supported brackets: (), <>, {}
+# supported brackets: ()
 *()* -> [1][2]
-*<>* -> [1][2]
-*{}* -> [1][2]
 !> true
 * !> false

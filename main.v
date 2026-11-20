@@ -17,7 +17,9 @@ fn main() {
 	exec_flags := rexlang.ExecutionFlags{verbose}
 
 	input_string := fp.string('input', `i`, '', 'program input')
-	rest_args := fp.finalize() or { exit(1) }
+	rest_args := fp.finalize() or {
+		exit(1)
+	}
 
 	if rest_args.len < 1 {
 		eprintln('Epected source code file.')

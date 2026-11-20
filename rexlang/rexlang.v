@@ -113,10 +113,20 @@ fn parse_result(result_str string, matchers_count int) !Result {
 	rs := result_str.runes()
 
 	for i := 0; i < rs.len; i++ {
-		if rs[i] == `[` {
-			if matchers_count == 0 {
-				return error('unexpected start of placeholder in result with no matchers in pattern')
+		if rs[i] in [`$`, `[`] && matchers_count == 0 {
+			return error('unexpected start of placeholder in result with no matchers in pattern')
+		}
+
+		if rs[i] == `$` {
+			i++
+			if i >= rs.len || rs[i] <= `0` || rs[i] > `9` {
+				return error('expected one-digit number after dollar sign')
 			}
+			result << i32(rs[i] - `0`)
+			continue
+		}
+
+		if rs[i] == `[` {
 			s := i + 1
 			for i < rs.len && rs[i] != `]` {
 				i++
@@ -150,7 +160,9 @@ fn compile(code string) ![]Rule {
 			continue
 		}
 
-		pattern, result_str, is_terminal := split_line_pattern_result(line_bytes) or {
+		line_bytes_no_comments := line_bytes.all_before('#')
+
+		pattern, result_str, is_terminal := split_line_pattern_result(line_bytes_no_comments) or {
 			return error('Line ${ind + 1}: ${err.msg()}')
 		}
 
